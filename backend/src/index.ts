@@ -7,7 +7,8 @@ import { decode, sign, verify } from 'hono/jwt'
 
 const app = new Hono<{
 	Bindings: {
-		DATABASE_URL: string
+		DATABASE_URL: string,
+    JWT_SECRET: string
 	}
 }>();
 
@@ -23,21 +24,24 @@ app.post('/api/v1/signup', async (c) => {
 
   const body = await c.req.json();
 
-  const user = await prisma.user.create({
-    data:{
-      email: body.email,
-      password: body.password
-    }
-  })
+  try {
+		const user = await prisma.user.create({
+			data: {
+				email: body.email,
+				password: body.password
+			}
+		});
 
-  const token = await sign({id: user.id}, "secret123")
+		const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
+		return c.json({ jwt });
 
 
-  return c.json({
-    jwt: token
-  });
-  
+	} catch(e) {
+		c.status(403);
+		return c.json({ error: "error while signing up" });
+	}
 })
+
 
 
 app.post('/api/v1/signin', (c) => {
