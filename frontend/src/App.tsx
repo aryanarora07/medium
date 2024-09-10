@@ -1,5 +1,3 @@
-
-import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Signup } from './pages/Signup'
 import { Signin } from './pages/Signin'
@@ -9,7 +7,7 @@ function App() {
 
   return (
     <>
-      <ChakraProvider>
+
         <BrowserRouter>
           <Routes>
             <Route path="/signup" element={<Signup />} />
@@ -17,7 +15,7 @@ function App() {
             <Route path="/blog/:id" element={<Blog />} />
           </Routes>
         </BrowserRouter>
-      </ChakraProvider>
+
     </>
   )
 }
