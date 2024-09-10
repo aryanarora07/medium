@@ -6,7 +6,6 @@ export const Signin = () =>{
         <div className="grid grid-cols-1 lg:grid-cols-2">
             <div>
                 <Auth type="signin"/> 
-                <Quote/>
                 
             </div>
             <div className=" invisible lg:visible">
