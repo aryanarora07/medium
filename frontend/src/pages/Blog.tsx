@@ -1,24 +1,16 @@
-import { Appbar } from "../components/Appbar";
+import { useParams } from "react-router-dom";
 import { useBlog } from "../hooks";
+import { FullBlog } from "../components/FullBlog";
 
-export const Blog = () =>{
-    const {loading, blog} = useBlog();
+export const Blog = () => {
+    const { id } = useParams<{ id: string }>();
+    const { loading, blog } = useBlog({ id: Number(id) });
 
-    if(loading){
+    if (loading || !blog) {
         return <div>Loading...</div>
     }
 
     return <div>
-        <Appbar/>
-        <div className="flex justify-center">
-            <div className="max-w-xl">
-                <div className="text-xl font-semibold pt-2">
-                    {blog?.title}
-                </div>
-                <div className="text-md font-thin">
-                    {blog?.content}
-                </div>
-            </div>
-        </div>
+        <FullBlog blog={blog}/>
     </div>
 }
